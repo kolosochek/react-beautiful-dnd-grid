@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import { Omit } from "../util/omit";
 import { splitItems, computeOriginalIndex, computeOriginalIndexAfterDrop } from "./compute";
 
@@ -25,6 +25,7 @@ export interface Props {
 export interface WithMaxItemsProps {
   items: any[];
   maxItems?: number;
+  placeholder?: ReactNode,
   onDragEnd(sourceIndex: number, destinationIndex: number): void;
 }
 
@@ -32,6 +33,7 @@ interface WithMaxItemsState {
   maxItems: number;
   items: any[];
   chunks: Chunk[];
+  placeholder?: ReactNode,
 }
 
 export const withMaxItems = <T, P extends Props>(
@@ -45,7 +47,8 @@ export const withMaxItems = <T, P extends Props>(
       this.state = {
         maxItems,
         items: props.items,
-        chunks: splitItems(maxItems, props.items, createId)
+        chunks: splitItems(maxItems, props.items, createId),
+        placeholder: props.placeholder,
       };
     }
 
@@ -72,7 +75,7 @@ export const withMaxItems = <T, P extends Props>(
 
     public render = () => {
       const { items, maxItems, onDragEnd, ...rest } = this.props;
-      return <Component chunks={this.state.chunks} onDragEnd={this.onDragEnd} {...(rest as unknown) as P} />;
+      return <Component chunks={this.state.chunks} onDragEnd={this.onDragEnd} placeholder={this.state.placeholder} {...(rest as unknown) as P} />;
     };
   };
 };
