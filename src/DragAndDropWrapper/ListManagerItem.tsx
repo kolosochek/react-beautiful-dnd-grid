@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 import hash from "object-hash";
+import {Grid} from '@mui/material';
 
 export interface ListManagerItemProps {
   item: any;
@@ -15,9 +16,9 @@ export const ListManagerItem: React.StatelessComponent<ListManagerItemProps> = (
 }: ListManagerItemProps) => (
   <Draggable draggableId={hash(item)} index={index}>
     {(provided: DraggableProvided, _: DraggableStateSnapshot) => (
-      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+      <Grid item xs={3} md={3} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
         {render(item)}
-      </div>
+      </Grid>
     )}
   </Draggable>
 );
